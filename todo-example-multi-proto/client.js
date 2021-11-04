@@ -1,7 +1,25 @@
+const path = require('path');
 const grpc = require("grpc");
 const protoLoader = require("@grpc/proto-loader")
 
-const packageDef = protoLoader.loadSync("todo.proto", {});
+const serviceProtoPath = path.resolve(__dirname, './proto/todoService.proto');
+const importDSProtoPath = path.resolve(__dirname, './proto/data_structures');
+const importEnumProtoPath = path.resolve(__dirname, './proto/enumerations');
+
+// These options help make definitions usable in our code
+const protoOptions = {
+    keepCase: true,
+    longs: String,
+    enums: String,
+    defaults: true,
+    oneofs: true
+  }
+
+// Get the package definition
+const packageDef = protoLoader.loadSync(serviceProtoPath, {
+    includeDirs: [importDSProtoPath, importEnumProtoPath],
+    protoOptions
+});
 
 const grpcObject = grpc.loadPackageDefinition(packageDef);
 const todoPackage = grpcObject.todoPackage;
@@ -9,18 +27,23 @@ const todoPackage = grpcObject.todoPackage;
 const text = process.argv[2];
 
 // Create an Object of the Todo service
-const client = new todoPackage.Todo("localhost:40000", 
-grpc.credentials.createInsecure())
+const client = new todoPackage.Todo("localhost:40000",
+    grpc.credentials.createInsecure())
 
 
 console.log(text)
 
+const dev1 = todoPackage.IdofDevice;
+
+dev1.type
+
 client.createTodo({
     "id": -1,
-    "text": text
+    "text": text,
+    "id_device": todoPackage.IdofDevice.type.value[0].name
 }, (err, response) => {
 
-    console.log("Recieved from server " + JSON.stringify(response))
+    console.log("Received from server " + JSON.stringify(response))
 
 })
 
@@ -28,8 +51,8 @@ client.createTodo({
 client.readTodos(null, (err, response) => {
 
     console.log("read the todos from server " + JSON.stringify(response))
-    if (typeof response.items !== 'undefined'){
-        response.items.forEach(a=>console.log(a.text));
+    if (typeof response.items !== 'undefined') {
+        response.items.forEach(a => console.log(a.text));
     }
 })
 
