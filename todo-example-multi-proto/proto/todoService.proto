@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package todoPackage;
+
+import "todoDataStruct.proto";
+import "pj_enumerations.proto";
+
+service Todo {
+    rpc createTodo(TodoItem) returns (TodoItem);
+    rpc readTodos(voidNoParam) returns (TodoItems);
+    rpc readTodosStream(voidNoParam) returns (stream TodoItem);
+
+}

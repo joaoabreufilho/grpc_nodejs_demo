@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package todoPackage;
+
+import "pj_enumerations.proto";
+
+message voidNoParam {}
+
+message TodoItem {
+    int32 id = 1;
+    string text = 2;
+    enumerations.IdofDevice id_device = 3;
+}
+
+message TodoItems {
+    repeated TodoItem items = 1;
+}

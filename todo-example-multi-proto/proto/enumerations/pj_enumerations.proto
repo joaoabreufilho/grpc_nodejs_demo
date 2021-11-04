@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package enumerations;
+
+enum IdofDevice {
+  kNoneDev = 0;
+  kHost = 1;
+  kPeripheral = 2;
+}
