@@ -45,6 +45,7 @@ function createTodo(call, callback) {
     callback(null, todoItem);
 }
 
+// With a stream you get one item at a time 
 function readTodosStream(call, callback) {
     if (!todos){
         todos.forEach(t => call.write(t));
