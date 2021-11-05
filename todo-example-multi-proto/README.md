@@ -3,3 +3,4 @@
 
 npm install grpc
 npm install grpc @grpc/proto-loader
+npm i -s @grpc/proto-loader @grpc/grpc-js

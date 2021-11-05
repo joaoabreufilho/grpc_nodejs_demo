@@ -6,10 +6,19 @@ const serviceProtoPath = path.resolve(__dirname, './proto/todoService.proto');
 const importDSProtoPath = path.resolve(__dirname, './proto/data_structures');
 const importEnumProtoPath = path.resolve(__dirname, './proto/enumerations');
 
+// These options help make definitions usable in our code
+const protoOptions = {
+    keepCase: true,
+    longs: String,
+    enums: String,
+    defaults: true,
+    oneofs: true
+  }
+
 // Get the package definition
 const packageDef = protoLoader.loadSync(serviceProtoPath, {
     includeDirs: [importDSProtoPath,importEnumProtoPath],
-    enums: String,
+    protoOptions
 });
 
 // Obtain the package (Load) as an object
@@ -17,6 +26,8 @@ const grpcObject = grpc.loadPackageDefinition(packageDef);
 
 // Get the todo package as a package
 const todoPackage = grpcObject.todoPackage;
+
+console.log(todoPackage.IdofDevice)
 
 const server = new grpc.Server();
 server.bind("0.0.0.0:40000",
@@ -44,8 +55,12 @@ function createTodo(call, callback) {
     console.log(call)
     const todoItem = {
         "id": todos.length + 1,
-        "text": call.request.text
+        "text": call.request.text,
+        "devId": call.request.devId
     }
+
+    console.log(todoItem)
+    
     todos.push(todoItem)
 
     // @details null auto calculate the payload (bytesWtitten)

@@ -31,16 +31,14 @@ const client = new todoPackage.Todo("localhost:40000",
     grpc.credentials.createInsecure())
 
 
-console.log(text)
 
-const dev1 = todoPackage.IdofDevice;
 
-dev1.type
+const dev1 = todoPackage.IdofDevice.type.value[2];
 
 client.createTodo({
     "id": -1,
     "text": text,
-    "id_device": todoPackage.IdofDevice.type.value[0].name
+    "devId": "kHost"
 }, (err, response) => {
 
     console.log("Received from server " + JSON.stringify(response))

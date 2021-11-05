@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package enumerations;
+package todoPackage;
 
 enum IdofDevice {
   kNoneDev = 0;
